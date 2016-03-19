@@ -39,7 +39,13 @@ def get_message(conn):
 def handle_client(conn, client_dir):
     while True:
         msg = get_message(conn)
-        if msg['type'] == 'file_add':
+        if msg['type'] == 'file_share':
+            shared_user = get_message(conn)
+            path = os.path.join(os.path.dirname(client_dir),shared_user)
+            if not os.path.isfile(os.path.join(path, msg['filename'])):
+                print('file shared ', os.path.join(path, msg['filename']))
+                add_file(path, msg['filename'], msg['data'])
+        elif msg['type'] == 'file_add':
             print('file added ', os.path.join(client_dir, msg['filename']))
             add_file(client_dir, msg['filename'], msg['data'])
         elif msg['type'] == 'file_delete':
