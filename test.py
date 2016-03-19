@@ -1,0 +1,1 @@
+with open(filename, "rb") as file:
