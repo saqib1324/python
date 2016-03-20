@@ -68,8 +68,6 @@ def send_delete_file(conn, filename):
                     for i in range(1,len(line_words)):
                         user = line_words[i] 
                         send_delshared_file(conn,user,line_words[0])
-                
-        
 
 def get_message(conn):
     length_str = b''
