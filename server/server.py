@@ -40,14 +40,24 @@ def send_delete_file(conn, filename,username):
         'filename': filename
     }
     send_msg(conn, msg)
-def add_file(client_dir, filename, data):
-    path = os.path.join(client_dir, filename)
-    # if not os.path.isfile(path):
-    with open(path, 'wb') as file:
-        file.write(base64.b64decode(data.encode('utf-8')))
+def add_file(client_dir_server, filename, data):
+    path = os.path.join(client_dir_server, filename)
+    if os.path.isfile(os.path.join(client_dir_server, "Selectfile.dropbin")):
+        sfiles = []
+        with open(os.path.join(client_dir_server, "Selectfile.dropbin"), "r") as file:
+            for line in file:
+                words = line.split()
+                sfiles.append(words[0])
+            file.close()
+        if (filename == 'Sharefile.dropbin' or filename in sfiles):
+            with open(path, 'wb') as file:
+                file.write(base64.b64decode(data.encode('utf-8')))
+        return 1
+    else:
+        with open(path, 'wb') as file:
+            file.write(base64.b64decode(data.encode('utf-8')))
     return 1
-    # else:
-    #     return 0
+
 def delete_file(client_dir, filename):
     path = os.path.join(client_dir, filename)
     if os.path.exists(path):
